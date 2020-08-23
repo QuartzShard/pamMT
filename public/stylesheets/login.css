@@ -1,0 +1,91 @@
+html{
+    background:aliceblue;
+    height:100%;
+    font-family: 'Ubuntu', 'Courier New', Courier, monospace;
+}
+body{
+    position:absolute;
+    top: 0;
+    bottom:0;
+    left:0;
+    right:0;
+  }
+a {
+    color:black;
+    text-decoration: dashed black;
+}
+a:hover {
+    color: white;
+    text-decoration: white;
+}
+header{
+    flex:1;
+    width:100%;
+    position: relative;
+  }
+h1{
+    position: absolute;
+    bottom: 0;
+    left: 25%;
+    padding-bottom:16px;
+    padding-top:16px;
+    right: 0;
+    text-align:center;
+    margin:0;
+    width:50%;
+}
+#main{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 1em;
+    padding-bottom: 30px;
+    height: 60%;
+  }
+#maincontent{
+    padding:16px;
+    width:50%;
+}
+
+.forms{
+    display:grid;
+    flex:1;
+    width:50%;
+    padding:16px;
+}
+.forms>div{
+    display:flex;
+}
+.forms>div>*{
+    flex:1;
+}
+h3{
+    margin:0 auto;
+    padding:16px;
+}
+p {
+    margin: 0;
+    text-align: center;
+    padding: 16px;
+}
+ul{
+    margin: 0;
+    font-size: 0.9em;
+    display: block;
+}
+li {
+    margin: 0 auto;
+    padding: 16px;   
+}
+footer {
+    padding: 3px;
+    font-size: 0.75em;
+}
+:root {
+    --mdc-theme-primary: #0059ff;
+    --mdc-theme-secondary: #b0cafa;
+    --mdc-theme-on-primary: #FFFFFF;
+    --mdc-theme-on-secondary: #000000;
+    --mdc-theme-surface: #91b8ff4f;
+}

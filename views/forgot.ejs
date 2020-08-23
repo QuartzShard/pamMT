@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Reset password</title>
+        <link rel="canonical" href="https://pammt.co.uk/login/forgot"/>
+        <% include ./partials/head %>
+        <link href="/stylesheets/login.css" rel="stylesheet">
+    </head>
+    <body>
+        <div id="main">
+            <header><h1 class="mdc-card">Reset Password</h1></header>
+            <form action='/login/forgot' method='POST' id="form" class="forms mdc-card">
+                <h3>Enter username or email of account</h3>
+                <div>
+                    <label for="uname">Username: </label>
+                    <input type="text" id="uname" name="uname" >
+                </div>
+                <div>
+                    <label for="email">Email: </label>
+                    <input type="email" id="email" name="email" >
+                </div>
+                <button type=submit id=forgot class="mdc-button--raised">Send reset email</button>
+                <% include ./partials/errorPrinter %>
+            </form>
+        </div>
+    </body>
+</html>

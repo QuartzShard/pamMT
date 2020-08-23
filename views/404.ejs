@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Page Not Found</title>
+        <% include ./partials/head %>
+        <link href="stylesheets/style.css" rel="stylesheet">
+    </head>
+    <body>
+        <% include ./partials/navbar %>
+        <div class="mdc-card" id="main">
+            <header>
+                <h1 class="mdc-card">Physics and Maths Modelling Tool: pamMT</h1>
+            </header>
+            <div class="mdc-card" id="maincontent">
+                <p>Something Broke! <br>The page <%= url %> does not exist!</p>
+                <p>Just kidding, this is a 404. If you're a user seeing this, it means the link you followed is incorrect or you typed the url wrong. Please try going to the <b><a href='/'>home page</a></b>
+                    and finding what you want from there, or if you followed a broken link on this site, please let me know at the email in the footer.
+                </p>
+                <p>If you're a bot, or just looking for security holes, please kindly leave.</p>
+            </div>
+        </div>
+        <% include ./partials/footer %>
+        <div id=trap>
+            <!--This is a trap for badly behaved webcrawlers. If you're a user, please just ingore this-->
+            <a href='https://master.ayra.ch/Trap/'></a>
+        </div>
+    </body>
+</html>

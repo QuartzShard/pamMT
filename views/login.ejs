@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Log into pamMT</title>
+        <link rel="canonical" href="https://pammt.co.uk/login"/>
+        <% include ./partials/head %>
+        <link href="stylesheets/login.css" rel="stylesheet">
+    </head>
+    <body>
+        <div id="main">
+            <header><h1 class="mdc-card">Log into pamMT</h1></header>
+            <form action='/login' method='POST' id ="form" class="forms mdc-card">
+                <h3>Login</h3>
+                <div>
+                    <label for="uname">Username: </label>
+                    <input type="text" id="uname" name="uname" required>
+                </div>
+                <div>
+                    <label for="passwd">Password: </label>
+                    <input type="password" id="passwd" name="passwd" required>
+                </div>
+                <button type=submit class="mdc-button--raised" id=login>Login</button>
+                <% include ./partials/errorPrinter %>
+                <p>Don't have an account? <b><a href="/register">Register here.</a></b><br>
+                <a href='/login/forgot'>Forgot your password?</a></p>
+            </form>
+        </div>
+    </body>
+</html>

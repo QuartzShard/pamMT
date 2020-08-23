@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Internal sever error</title>
+        <% include ./partials/head %>
+        <link href="/stylesheets/style.css" rel="stylesheet">
+    </head>
+    <body>
+        <% include ./partials/navbar %>
+        <div class="mdc-card" id="main">
+            <header>
+                <h1 class="mdc-card">Physics and Maths Modelling Tool: pamMT</h1>
+            </header>
+            <div class="mdc-card" id="maincontent">
+                <p>Something Broke! <br><%= message %></p>
+                <p>This is a genuine internal server error. If you see this, something went wrong. Please contact me at the email in the footer if you wee this more than once, preferably with instructions to replicate the error
+                </p>
+            </div>
+        </div>
+        <% include ./partials/footer %>
+    </body>
+</html>

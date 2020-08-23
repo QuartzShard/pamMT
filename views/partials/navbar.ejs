@@ -1,0 +1,13 @@
+<nav>
+    <h2>
+        <button class="mdc-button mdc-button--raised" onclick="window.location.href = '/'">Home</button>
+        <button class="mdc-button mdc-button--raised" onclick="window.location.href = '/app'" id="app" >Open pamMT</a>
+        <button class="mdc-button mdc-button--raised" onclick="window.location.href = '/about'">About</button>
+        <%if (!user || user.uname == 'guest') {%>
+            <button class="mdc-button mdc-button--raised" onclick="window.location.href = '/login'" id="login">Sign in</button>
+        <%} else {%>
+            <button class="mdc-button mdc-button--raised" onclick="window.location.href = '/profile'" id="login">Your profile</button>
+            <button class="mdc-button mdc-button--raised" onclick="window.location.href = '/logout'" id="login">Sign out <%= user.uname %></button>
+        <%};%>
+    </h2>
+</nav>

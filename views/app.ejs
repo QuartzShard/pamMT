@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>pamMT</title>
+        <% include ./partials/head %> <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/p5.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/addons/p5.dom.min.js"></script>
+        <script src="/scripts/p5.collide2d.js"></script>
+        <script src="/scripts/SimObjLib.js"></script>
+        <script src='/scripts/SimDisplay.js'></script>
+        <link rel='stylesheet' href='/stylesheets/app.css'>
+    </head>
+    <body>
+        <% include ./partials/navbar %>
+        
+        <div id="sim">
+            <div id="sim-viewport"></div>
+            <div id="panel">
+                <p>Current playback rate: <span id="rate">1</span></p>
+                <div id="buttons">
+                    <button type="button" class="mdc-button mdc-button--raised" onclick="newObjectMenu()">New Object</button>
+                    <button type="button" class="mdc-button mdc-button--raised" id="playpause" onclick="playpause()">Play</button>
+                    <button type="button" class="mdc-button mdc-button--raised dropdown" id="clear">Clear<div class="mdc-card dropdown-content">
+                        <p id="clearStatics">Statics</p>
+                        <p id="clearMovers">Movers</p>
+                        <p id="clearAll">All</p>
+                    </div></button>
+                    <button id="openSave" type="button" class="mdc-button mdc-button--raised">Save</button>
+                    <button id="openLoad" type="button" class="mdc-button mdc-button--raised">Load</button>
+                    <button type="button" class="mdc-button mdc-button--raised" id="reset" onclick="reset()">Reset</button>
+                    <br>
+                    <div class="slidecontainer">                        
+                        <p>Playback speed: </p>
+                        <input type="range" min="0.005" max="2" step="0.005" value="1" class="slider" id="playback">
+                    </div>
+                </div>
+                <div id="menus">
+                    <div id="miscOpts" class="objIn">
+                        <div>
+                            <label for="pauseOnCollision">Pause on collision:</label><input id="pauseOnCollision" onclick="pauseOnCollision = document.getElementById('pauseOnCollision').checked" type="checkbox">
+                        </div>
+                        <div>
+                            <label for="velocityArrows">Show velocity vectors:</label><input id="velocityArrows" onclick="varrows = document.getElementById('velocityArrows').checked" type="checkbox">
+                        </div>
+                        <div>
+                            <label for="accelArrows">Show acceleration vectors:</label><input id="accelArrows" onclick="aarrows = document.getElementById('accelArrows').checked" type="checkbox">
+                        </div>
+                    </div>
+                    <div id="newObject" style="display: none;">
+                        <div>
+                            Type of new object:
+                            <select id="type" onchange="typeMenu()">
+                                <option value="null">--Select--</option>
+                                <option value="0">Static</option>
+                                <option value="1">Dynamic</option>
+                            </select>
+                        </div>
+                        <div id="static" class="objIn" style="display: none;">
+                            <div>
+                                Width: <input type="number" id="statObjWidth" min=1>
+                            </div>
+                            <div>
+                                Height: <input type="number" id="statObjHeight" min=1>
+                            </div>
+                            <button type="button" class="mdc-button mdc-button--raised" onclick="newObject('static')">Place!</button>
+                        </div>
+                        <div id="dynamic" style="display: none;">
+                            <select id="shape" onchange="shapeMenu()">
+                                <option value="0">Ellipse</option>
+                                <option value="1">Quadrilateral</option>
+                            </select>
+                            <div id="ellipse" class="objIn" style="display : block">
+                                <div>
+                                    Diameter: <input type="number" id="objWidth"><br>
+                                </div>
+                                <div>
+                                    Mass: <input type="number" id="objMass"><br>
+                                </div>
+                                Velocity:
+                                <div>
+                                    X:<input type="number" id="velx"> 
+                                </div>
+                                <div>
+                                    Y:<input type="number" id="vely">
+                                </div>
+                                Acceleration:
+                                <div>
+                                    X:<input type="number" id="accelx"> 
+                                </div>
+                                <div>
+                                    Y:<input type="number" id="accely">
+                                </div>
+                                <button type="button" class="mdc-button mdc-button--raised" onclick="newObject('dynamic','ellipse')">Place!</button>
+                            </div>
+                            <div id="quad" class="objIn" style="display : none">
+                                <div>
+                                    X: <input type="number" id="objX"><br>
+                                </div>
+                                <div>
+                                    Y: <input type="number" id="objY"><br>
+                                </div>
+                                <div>
+                                    Mass: <input type="number" id="qobjMass"><br>
+                                </div>
+                                Velocity:
+                                <div>
+                                    X:<input type="number" id="qvelx"> 
+                                </div>
+                                <div>
+                                    Y:<input type="number" id="qvely">
+                                </div>
+                                Acceleration:
+                                <div>
+                                    X:<input type="number" id="qaccelx"> 
+                                </div>
+                                <div>
+                                    Y:<input type="number" id="qaccely">
+                                </div>
+                                <button type="button" class="mdc-button mdc-button--raised" onclick="newObject('dynamic','quad')">Place!</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="objDetails" style="display : none">
+                        <div id="dynStats" style="display : none">
+                            Object Details:<br>
+                            X: <span id="posx"></span><br>
+                            Y: <span id="posy"></span><br>
+                            Mass: <span id="mass"></span><br>
+                            Velocity: <span id="velocity"></span><br>
+                            Acceleration: <span id="acceleration"></span><br>
+                        </div>
+                        <button type="button" class="mdc-button mdc-button--raised" onclick="remObj(inFocus)">Remove</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="saveDiag" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span><br>
+                <label for="saveName">Enter savefile name: </label>
+                <input id="saveName"><br>
+                <button type="button" class="mdc-button mdc-button--raised" onclick="saveSim(document.getElementById('saveName').value);saveDiag.style.display = 'none'; ">
+                    Save
+                </button>
+            </div>
+        </div>
+        <div id="loadDiag" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span><br>
+                <label for="loadName">Enter savefile to load: </label>
+                <input id="loadName"><br>
+                <button type="button" class="mdc-button mdc-button--raised" onclick="retrSim(document.getElementById('loadName').value);loadDiag.style.display = 'none'; ">
+                    Load
+                </button>
+            </div>
+        </div>
+        <div id="infoDiag" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span><br>
+                <p id="info"></p>
+            </div>
+        </div>
+        <script>
+            //Add clear events to the dropdown options
+            x = document.getElementById("clearStatics")
+            y = document.getElementById("clearMovers")
+            z = document.getElementById("clearAll")
+            x.addEventListener('click', function(){
+                clearSim(0)
+            })
+            y.addEventListener('click', function(){
+                clearSim(1)
+            })
+            z.addEventListener('click', function(){
+                clearSim(2)
+            })
+            //Info Modal
+            var infoDiag =  document.getElementById("infoDiag");
+            var info = document.getElementById("info");
+            var infoSpan = document.getElementsByClassName("close")[2];
+            infoSpan.onclick = function() {
+                infoDiag.style.display="none";
+                info.innerHTML = ""
+            }
+            window.onclick = function(event) {
+              if (event.target == infoDiag) {
+                infoDiag.style.display = "none";
+                info.innerHTML = ""
+              }
+            }
+            var displayInfo = function(message) {
+                info.innerHTML = message
+                infoDiag.style.display = "block"
+            }
+            // Get the modal elements
+            var saveDiag = document.getElementById("saveDiag");
+            var saveButton = document.getElementById("openSave");
+            var saveEntry = document.getElementById("saveName");
+            saveEntry.value = saveName || "No save selected"
+            // Get the <span> element that closes the modal
+            var savSpan = document.getElementsByClassName("close")[0];
+            // When the user clicks the button, open the modal 
+            saveButton.onclick = function() {
+              saveDiag.style.display = "block";
+            }
+            // When the user clicks on <span> (x), close the modal
+            savSpan.onclick = function() {
+              saveDiag.style.display = "none";
+            }
+            // When the user clicks anywhere outside of the modal, close it
+            window.onclick = function(event) {
+              if (event.target == saveDiag) {
+                saveDiag.style.display = "none";
+              }
+            }
+            var loadDiag = document.getElementById("loadDiag");
+            var loadButton = document.getElementById("openLoad");
+            var loadEntry = document.getElementById("loadName");
+            loadEntry.value = saveName
+            // Get the <span> element that closes the modal
+            var loadSpan = document.getElementsByClassName("close")[1];
+            // When the user clicks the button, open the modal 
+            loadButton.onclick = function() {
+              loadDiag.style.display = "block";
+            }
+            // When the user clicks on <span> (x), close the modal
+            loadSpan.onclick = function() {
+              loadDiag.style.display = "none";
+            }
+            // When the user clicks anywhere outside of the modal, close it
+            window.onclick = function(event) {
+              if (event.target == loadDiag) {
+                loadDiag.style.display = "none";
+              }
+            }
+            var slider = document.getElementById("playback")
+            var rate = document.getElementById("rate")
+            slider.oninput = function() {
+                playrate = this.value
+                rate.innerHTML = this.value
+            }
+            var setRateOut = function(val){
+                rate.innerHTML = val
+                slider.value = val
+            }
+        </script>
+        <% include ./partials/footer %> 
+    </body>
+</html>

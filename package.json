@@ -1,0 +1,30 @@
+{
+  "name": "pammt2",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node ./app.js"
+  },
+  "dependencies": {
+    "bcrypt": "^3.0.6",
+    "connect-flash": "^0.1.1",
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "ejs": "~2.6.1",
+    "express": "~4.16.1",
+    "express-message": "^1.2.3",
+    "express-session": "^1.16.2",
+    "express-validator": "^6.1.1",
+    "http-errors": "~1.6.3",
+    "jquery": "^3.4.1",
+    "mongodb": "^1.4.40",
+    "mongoose": "^4.13.20",
+    "morgan": "~1.9.1",
+    "node-file-logger": "^0.9.5",
+    "nodemailer": "^6.3.0",
+    "p5": "^0.9.0",
+    "passport": "^0.4.0",
+    "passport-http": "^0.3.0",
+    "passport-local": "^1.0.0"
+  }
+}

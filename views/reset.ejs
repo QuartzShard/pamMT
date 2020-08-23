@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Reset password</title>
+        <% include ./partials/head %>
+        <link href="/stylesheets/login.css" rel="stylesheet">
+    </head>
+    <body>
+        <div id="main">
+            <header><h1 class="mdc-card">Reset Password</h1></header>
+            <%if (valid) {%>
+            <form method='POST' class="forms mdc-card">
+                <h3>Reset password</h3>
+                <div>
+                    <label for="passwd1">Password: </label>
+                    <input type="password" id="passwd1" name="passwd1" >
+                </div>
+                <div>
+                    <label for="passwd2">Repeat Password: </label>
+                    <input type="password" id="passwd2" name="passwd2" >
+                </div>
+                <button type=submit id=reset class="mdc-button--raised">Reset password</button>
+                <% include ./partials/errorPrinter %>
+            </form>
+            <%} else {%>
+            <div class="mdc-card" id="maincontent">
+            <h3>Reset token is invalid or expired</h3>
+            <% include ./partials/errorPrinter %>
+            <p><a href='/'>Back to homepage </a>or <a href='/login/forgot'>request new reset link</a></p>
+            </div>
+            <%};%>
+        </div>
+    </body>
+</html>

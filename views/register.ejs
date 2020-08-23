@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Register with pamMT</title>
+        <link rel="canonical" href="https://pammt.co.uk/register"/>
+        <% include ./partials/head %>
+        <link href="stylesheets/login.css" rel="stylesheet">
+    </head>
+    <body>
+        <div id="main">
+            <header><h1 class="mdc-card" >Register with pamMT</h1></header>
+            <form action='/register' method='POST' id="form" class="forms mdc-card">
+                <h3>Register</h3>
+                <div>
+                    <label for="uname">Username: </label>
+                    <input type="text" id="uname" name="uname" required>
+                </div>
+                <div>
+                    <label for="email">Email: </label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div>
+                    <label for="passwd1">Password: </label>
+                    <input type="password" id="passwd1" name="passwd1" required>
+                </div>
+                <div>
+                    <label for="passwd2">Repeat Password: </label>
+                    <input type="password" id="passwd2" name="passwd2" required>
+                </div>
+                <button type=submit id=register class="mdc-button--raised">Register</button>
+                <% include ./partials/errorPrinter %>
+            </form>
+        </div>
+    </body>
+</html>

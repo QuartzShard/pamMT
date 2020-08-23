@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Your profile</title>
+        <link rel="canonical" href="https://pammt.co.uk"/>
+        <meta name="google-site-verification" content="JUZjGeauUSM3lQLfiG6d-3LwRDMUg3N8maSX5Fty1Oc" />
+        <% include ./partials/head %>
+        <link href="stylesheets/style.css" rel="stylesheet">
+    </head>
+    <body>
+        <%include ./partials/navbar %>
+        <div class="mdc-card" id="main">
+                <header>
+                    <h1 class="mdc-card">Your profile <% user %> </h1>
+                </header>
+                <div class="mdc-card" id="maincontent">
+                    <label for="uname">Change your username: </label> <input id="uname"> <br>
+                    <button class="mdc-button mdc-button--raised" type="button" id="unameButton" onclick="unameChange(document.getElementById('uname').value)">Submit</button><br>
+                    <label for="passwd1">Change your password: </label> <input type="password" id="passwd1"> <br>
+                    <label for="passwd2">Repeat new password:  </label> <input type="password" id="passwd2"> <br>
+                    <button class="mdc-button mdc-button--raised" type="button" id="passwdButton" onclick="passwdChange(document.getElementById('passwd1').value,document.getElementById('passwd2').value)">Submit</button><br>
+               </div>
+        </div>
+        <div id="resultModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span><br>
+                <p id="result"></p>
+            </div>
+        </div>
+        <script>
+            var resModal = document.getElementById("resultModal")
+            var result = document.getElementById("result")
+            // Get the <span> element that closes the modal
+            var resSpan = document.getElementsByClassName("close")[0];
+            // When the user clicks the button, open the modal 
+            var showRes = function(res) {
+                result.innerHTML = res
+                resModal.style.display = "block";
+            }
+            // When the user clicks on <span> (x), close the modal
+            resSpan.onclick = function() {
+                resModal.style.display = "none";
+            }
+            // When the user clicks anywhere outside of the modal, close it
+            window.onclick = function(event) {
+                if (event.target == resModal) {
+                    resModal.style.display = "none";
+                }
+            }
+            var unameChange = function(newname) {
+                document.getElementById('uname').value = ""
+                $.ajax({
+                    url: '/profile/unameupdate',
+                    method:"POST",
+                    data: {"newname":newname},
+                    success : function(res) {showRes(res)},
+                })
+            }
+            var passwdChange = function(newPass1,newPass2) {
+                document.getElementById('passwd1').value = ""
+                document.getElementById('passwd2').value = ""
+                if (newPass1 === newPass2 && newPass1.length >= 8){
+                    $.ajax({
+                        url: '/profile/passwdupdate',
+                        method:"POST",
+                        data: {"newPass":newPass1},
+                        success : function(res) {showRes(res)},
+                    })
+                } else if(newPass1.length >= 8){
+                    showRes("Passwords don't match!")
+                } else {
+                    showRes("Password too short!")
+                }
+            }
+        </script>
+        <% include ./partials/footer %>
+    </body>
+</html>
